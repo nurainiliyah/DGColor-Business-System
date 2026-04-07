@@ -1,0 +1,84 @@
+﻿@model DgAPI.Models.PrintingOrder
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h4 class="text-center">Update Print Order</h4>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="printingorder_id" /> <!-- Hidden field to store PrintOrderID -->
+    <input type="hidden" asp-for="customer_id" />
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <input value="@Model.customers?.customer_name" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Print Service</label>
+
+                        <select asp-for="printingservice_id"
+                                asp-items="ViewBag.ServiceList"
+                                id="serviceSelect"
+                                class="form-control">
+                            <option value="">-- Select Service --</option>
+                        </select>
+
+                        <span asp-validation-for="printingservice_id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Service Price</label>
+                        <input type="text" id="servicePrice" class="form-control" readonly />
+                    </div>
+    <div class="form-group">
+        <label class="control-label">Quantity</label>
+        <input asp-for="printing_quantity" id="quantity" type="number" min="1" class="form-control" />
+        <span asp-validation-for="printing_quantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Total Price</label>
+        <input asp-for="print_totalprice" id="totalPrice" class="form-control" readonly/>
+        <span asp-validation-for="print_totalprice" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Date</label>
+        <input asp-for="print_orderdate" class="form-control" type="date" />
+        <span asp-validation-for="print_orderdate" class="text-danger"></span>
+    </div>
+                    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+ let servicePrices = @Html.Raw(Json.Serialize(ViewBag.ServicePrices));
+
+    function calculateTotal() {
+
+        let serviceId = document.getElementById("serviceSelect").value;
+        let quantity = document.getElementById("quantity").value;
+
+        if (!serviceId) return;
+
+            let price = servicePrices[serviceId];
+
+            // Show service price
+            document.getElementById("servicePrice").value = price.toFixed(2);
+
+            if (quantity && quantity > 0) {
+                let total = price * quantity;
+                document.getElementById("totalPrice").value = total.toFixed(2);
+            }
+            else {
+
+        document.getElementById("totalPrice").value = "";
+            }
+            }
+
+    document.getElementById("serviceSelect").addEventListener("change", calculateTotal);
+    document.getElementById("quantity").addEventListener("input", calculateTotal);
+        window.onload = function () {
+        calculateTotal();
+    };
+</script>

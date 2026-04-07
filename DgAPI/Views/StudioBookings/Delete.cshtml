@@ -1,0 +1,46 @@
+﻿@model DgAPI.Models.StudioBooking
+
+<h2>Delete Studio Booking</h2>
+
+<h3>Are you sure you want to delete this booking?</h3>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Customer name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.customer_id
+        </dd>
+        <dt class="col-sm-2">
+            Package
+        </dt>
+        <dd class="col-sm-10">
+            @Model.package_id
+        </dd>
+        <dt class="col-sm-2">
+            Date
+        </dt>
+        <dd class="col-sm-10">
+            @Model.booking_date.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Time
+        </dt>
+        <dd class="col-sm-10">
+            @Model.booking_time
+        </dd>
+        <dt class="col-sm-2">
+            Note
+        </dt>
+        <dd class="col-sm-10">
+            @Model.note
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="booking_id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

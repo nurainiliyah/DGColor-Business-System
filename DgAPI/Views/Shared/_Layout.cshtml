@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DGColor</title>
+    <link rel="icon" type="image/png" href="~/images/dgcolor.png" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DgAPI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css" />
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-primary d-flex flex-column" id="sidebar-wrapper">
+            <div class="d-flex flex-column h-100">
+                    <ul class="nav nav-pills flex-column p-2 flex-grow-1">
+                        @if (User.IsInRole("Admin"))
+                        {
+                    <div class="text-center p-3 border-bottom">
+                        <a asp-controller="AdminDashboard" asp-action="Index">
+                            <img src="~/images/dgcolor.png"
+                                 width="100"
+                                 class="img-fluid" />
+                        </a>
+                    </div>
+
+                        <li class="nav-item">
+                        <a class="nav-link text-white" asp-area="" asp-controller="AdminDashboard" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link text-white" asp-area="" asp-controller="StudioPackages" asp-action="Index">Studio Packages</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link  text-white" asp-area="" asp-controller="StudioBookings" asp-action="Index">Studio Bookings</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link  text-white" asp-area="" asp-controller="PrintingServices" asp-action="Index">Printing Services</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link  text-white" asp-area="" asp-controller="PrintingOrders" asp-action="Index">Printing Orders</a>
+                        </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link  text-white" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  text-white" asp-area="" asp-controller="Customers" asp-action="Index">Customer Management</a>
+                    </li>
+                        }
+                        else if (User.IsInRole("Staff"))
+                        {
+                    <div class="text-center p-3 border-bottom">
+                        <a asp-controller="StaffDashboard" asp-action="Index">
+                            <img src="~/images/dgcolor.png"
+                                 width="100"
+                                 class="img-fluid" />
+                        </a>
+                    </div>
+
+                    <li><a class="nav-link  text-white" asp-area="" asp-controller="StaffDashboard" asp-action="Index">Home</a></li>
+                    <li><a class="nav-link  text-white" asp-area="" asp-controller="StudioBookings" asp-action="Index">Studio Booking</a></li>
+                    <li><a class="nav-link  text-white" asp-area="" asp-controller="PrintingOrders" asp-action="Index">Printing Order</a></li>
+                    <li><a class="nav-link  text-white" asp-area="" asp-controller="Customers" asp-action="Index">Customer Management</a></li>
+                            
+                        }
+                </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="p-3 border-top">
+                            
+                                <form asp-controller="Auth" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-outline-light w-100">
+                                ⏻ Logout
+                            </button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+        </div>
+    <!-- Page Content -->
+        <div id="page-content-wrapper" class="flex-grow-1" >
+
+        <!-- Topbar -->
+            <nav class="navbar navbar-light bg-warning border-bottom">
+            <div class="container-fluid">
+                    <button class="btn btn-warning" id="sidebarToggle">
+                    ☰
+                </button>
+            </div>
+        </nav>
+
+        <div class="container-fluid p-4">
+            @RenderBody()
+        </div>
+
+    </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        document.getElementById("sidebarToggle")
+            .addEventListener("click", function () {
+                document.getElementById("wrapper")
+                    .classList.toggle("toggled");
+            });
+    </script>
+</body>
+
+</html>

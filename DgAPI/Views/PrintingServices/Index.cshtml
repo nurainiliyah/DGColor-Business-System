@@ -1,0 +1,166 @@
+﻿@model IEnumerable<DgAPI.Models.PrintingService>
+@{
+    ViewData["Title"] = "Printing Services";
+}
+<h3>Printing Services</h3>
+<br />
+<div class="container">
+    <div class="card shadow p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <!--Search -->
+            <form method="get" asp-action="Index" class="d-flex" style="width: 40%;">
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control me-2"
+                       placeholder="Search service, size or status..." />
+
+                <button type="submit" class="btn btn-primary me-2">
+                    Search
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Reset
+                </a>
+            </form>
+
+            <!-- Add Button -->
+            <a asp-action="Create" class="btn btn-info">
+                + Add New Print Service
+            </a>
+
+        </div>
+        
+<table class="table">
+    <thead>
+                <tr class="table-warning">
+            <th>Printing Service Name</th>
+            <th>Size (inch)</th>
+            <th>Price (RM)</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var printingservice in Model)
+        {
+            <tr>
+                <td>@printingservice.printingservice_name</td>
+                <td>@printingservice.printing_size</td>
+                <td>RM @printingservice.printing_price.ToString("0.00")</td>
+                <td>
+                        <span class="badge
+                                @(printingservice.printing_status == "Active"
+                                                                                            ? "bg-success"
+                                                                                            : "bg-secondary")">
+                        @printingservice.printing_status
+                    </span>
+                    </td>
+                <td>
+                            <a asp-action="Edit" asp-route-id="@printingservice.printingservice_id" class="btn btn-secondary">Edit</a> 
+                            <a href="javascript:void(0);"
+                               class="btn btn-danger"
+                               data-bs-toggle="modal"
+                               data-bs-target="#deleteModal"
+                               data-id="@printingservice.printingservice_id">
+                               Delete
+                            </a>
+                </td>
+            </tr>
+        }
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">
+                            No printing services found
+                        </td>
+                    </tr>
+                }
+    </tbody>
+</table>
+        <div class="d-flex justify-content-center mt-3">
+            <nav>
+                <ul class="pagination">
+
+                    <!-- Previous -->
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(ViewBag.CurrentPage - 1)"
+                           asp-route-search="@ViewBag.Search">
+                            Previous
+                        </a>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link"
+                               asp-action="Index"
+                               asp-route-page="@i"
+                               asp-route-search="@ViewBag.Search">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Next -->
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(ViewBag.CurrentPage + 1)"
+                           asp-route-search="@ViewBag.Search">
+                            Next
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Are you sure you want to delete this print service?
+                        </h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                        </button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <form asp-action="DeleteConfirmed" method="post">
+                            <input type="hidden" name="id" id="deleteprintingservice_id" />
+                            <button type="submit" class="btn btn-danger">
+                                Delete
+                            </button>
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <script>
+            var deleteModal = document.getElementById('deleteModal');
+
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var printingservice_id = button.getAttribute('data-id');
+
+                var input = document.getElementById('deleteprintingservice_id');
+                input.value = printingservice_id;
+            });
+        </script>
+

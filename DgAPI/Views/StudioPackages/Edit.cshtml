@@ -1,0 +1,58 @@
+﻿@model DgAPI.Models.StudioPackage
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h4 class="text-center">Update Studio Package</h4>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="package_id" /> <!-- Hidden field to store PackageID -->
+
+    <div class="form-group">
+        <label class="control-label">Package Name</label>
+        <input asp-for="package_name" class="form-control" />
+        <span asp-validation-for="package_name" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label class="control-label">Description</label>
+        <input asp-for="package_description" class="form-control" />
+        <span asp-validation-for="package_description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+                        <label class="form-label mt-4">Price</label>
+                        <div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">RM</span>
+        <label class="control-label"></label>
+        <input asp-for="package_price" class="form-control" />
+        <span asp-validation-for="package_price" class="text-danger"></span>
+
+                            </div>
+                        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Note</label>
+        <input asp-for="package_note" class="form-control" />
+        <span asp-validation-for="package_note" class="text-danger"></span>
+    </div>
+    <br />
+                    <div class="form-group">
+                        <label class="control-label">Status</label>
+
+                        <select asp-for="package_status" class="form-select">
+                            <option value="">-- Select Status --</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+
+                        <span asp-validation-for="package_status" class="text-danger"></span>
+                    </div>
+    <br/>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+            </div>
+        </div>
+    </div>
+</div>

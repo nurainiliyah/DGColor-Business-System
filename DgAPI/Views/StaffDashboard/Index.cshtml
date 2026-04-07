@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<h3 class="mb-4">Dashboard</h3>
+<div class="shadow-sm p-3 rounded text-white"
+     style="background: linear-gradient(to right, #ff69b4, #ff85c1);">
+    <h5 class="mb-0">
+        Welcome back, <strong>@User.Identity.Name</strong>
+    </h5>
+</div>
+<br />
+<!-- TODAY SUMMARY -->
+<div class="row mb-4 text-center">
+
+    <div class="col-md-3">
+        <div class="card bg-info text-white p-3 shadow">
+            <h5>Bookings Today</h5>
+            <h3>@ViewBag.BookingsToday</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-secondary text-white p-3 shadow">
+            <h5>Printing Orders Today</h5>
+            <h3>@ViewBag.PrintingToday</h3>
+        </div>
+    </div>
+
+</div>
+<br/>
+<br/>
+<!-- QUICK ACTION BUTTONS -->
+<div class="row text-center">
+
+    <div class="col-md-4">
+        <a asp-controller="StudioBookings" asp-action="Index"
+           class="btn btn-success w-100 p-4 shadow">
+            📸 Studio Bookings
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a asp-controller="PrintingOrders" asp-action="Index"
+           class="btn btn-warning w-100 p-4 shadow">
+            🖨️ Printing Orders
+        </a>
+    </div>
+
+    <div class="col-md-4">
+        <a asp-controller="Customers" asp-action="Index"
+           class="btn btn-primary w-100 p-4 shadow">
+            👤 Customers
+        </a>
+    </div>
+
+</div>

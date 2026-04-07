@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "_AuthLayout";
+}
+<br />
+<div class="container">
+<div class="row justify-content-center">
+    <div class="col-md-4 ">
+        <div class="alert alert-warning text-center">
+            <img src="~/images/dgcolor.png"
+                 width="100"
+                 class="img-fluid" />
+            <h4 class="alert-heading">DGCOLOR<p>BUSINESS SYSTEM</p></h4>
+        </div>
+    </div>
+</div>
+</div>
+<br />
+<!-- Error Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Login Failed</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Invalid username or password. Please try again.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow p-4">
+                <h5 class="text-center text-warning fw-bold">Login</h5>
+                <form asp-controller="Auth" asp-action="Login" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" required />
+                    </div>
+                    <br />
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-dark w-50">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<footer class="text-center py-3 border-top w-auto" style="background-color:#f8f9fa;">
+    <small class="text-muted">
+        © @DateTime.Now.Year <strong>DGCOLOR</strong> Business System. All rights reserved.
+    </small>
+</footer>
+@if (!ViewData.ModelState.IsValid)
+{
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        myModal.show();
+    </script>
+}
+

@@ -1,0 +1,101 @@
+﻿@model IEnumerable<DgAPI.Models.StudioPackage>
+@{
+    ViewData["Title"] = "Studio Packages";
+}
+<h3>Studio Packages</h3>
+<br/>
+<div class="container">
+    <div class="card shadow p-4">
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-action="Create" class="btn btn-info">
+            + Add New Package
+        </a>
+    </div>
+        <div class="row">
+            @foreach (var studioPackage in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow h-100">
+
+                        <div class="card-body">
+                            <h5 class="card-title">@studioPackage.package_name</h5>
+
+                            <p class="text-muted">@studioPackage.package_description</p>
+
+                            <h4 class="text-primary">RM @studioPackage.package_price.ToString("0.00")</h4>
+
+                            <p><strong>Note:</strong> @studioPackage.package_note</p>
+
+                            <span class="badge
+                            @(studioPackage.package_status == "Active"
+                                                              ? "bg-success"
+                                                              : "bg-secondary")">
+                            @studioPackage.package_status
+                        </span>
+                    </div>
+
+                        <div class="card-footer text-end">
+                            <a asp-action="Edit"
+                               asp-route-id="@studioPackage.package_id"
+                               class="btn btn-sm btn-warning">
+                                Edit
+                            </a>
+
+                            <a href="javascript:void(0);"
+                               class="btn btn-sm btn-danger"
+                               data-bs-toggle="modal"
+                               data-bs-target="#deleteModal"
+                               data-id="@studioPackage.package_id">
+                                Delete
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                        }
+        </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Are you sure you want to delete this package?
+                        </h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                        </button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <form asp-action="DeleteConfirmed" method="post">
+                            <input type="hidden" name="id" id="deletePackageId" />
+                            <button type="submit" class="btn btn-danger">
+                                Delete
+                            </button>
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+<script>
+    var deleteModal = document.getElementById('deleteModal');
+
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var packageId = button.getAttribute('data-id');
+
+        var input = document.getElementById('deletePackageId');
+        input.value = packageId;
+    });
+</script>
